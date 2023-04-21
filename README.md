@@ -1,7 +1,7 @@
 <div id="top"></div>
 
 <!-- Title -->
-# Property Scraper App
+# Quantitative Analysis
 
 <!-- TABLE OF CONTENTS -->
 <!-- <details> -->
@@ -31,7 +31,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project aims to use quantative analysis to evaluate a company.
+This project aims to use quantitative analysis to evaluate a company.
 
 ### Current Implementation
   * N/A
