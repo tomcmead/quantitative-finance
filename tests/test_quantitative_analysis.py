@@ -13,3 +13,9 @@ def test_get_hist_stock_volumes():
     assert type(quant_analysis.get_hist_stock_volumes("MSFT", "GOOG")[0])==pd.Series
     assert type(quant_analysis.get_hist_stock_volumes("MSFT", "GOOG"))==list
     assert quant_analysis.get_hist_stock_volumes("Not_Real", "Fake_Stock")==[]   
+
+def test_get_hist_stock_dividends():
+    quant_analysis = qa.QuantativeAnalysis()
+    assert type(quant_analysis.get_hist_stock_dividends("MSFT", "GOOG")[0])==pd.Series
+    assert type(quant_analysis.get_hist_stock_dividends("MSFT", "GOOG"))==list
+    assert quant_analysis.get_hist_stock_dividends("Not_Real", "Fake_Stock")==[]   
