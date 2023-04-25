@@ -14,9 +14,9 @@ class QuantativeAnalysis:
     def __get_stock_data(self, tickers: list[str]) -> list[pd.DataFrame]:
         market_data = []
         for ticker in tickers:
-            try:
-                ticker_data = yf.Ticker(ticker)
-                market_data.append(ticker_data.history(period="1mo"))
-            except:
+            ticker_data = yf.Ticker(ticker).history(period="1mo")
+            if ticker_data.empty:
                 print(f"Error: {ticker} not found and excluded")
+            else:
+                market_data.append(ticker_data)
         return market_data
