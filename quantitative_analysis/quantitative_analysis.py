@@ -11,6 +11,10 @@ class QuantativeAnalysis:
         return [(stock.High+stock.Low)/2 for stock in market_data]
         # High, Low, Open, Close, Volume, Dividends
     
+    def get_hist_stock_volumes(self, *tickers: str) -> list[pd.DataFrame]:
+        market_data = self.__get_stock_data(tickers)
+        return [stock.Volume for stock in market_data]
+     
     def __get_stock_data(self, tickers: list[str]) -> list[pd.DataFrame]:
         market_data = []
         for ticker in tickers:
