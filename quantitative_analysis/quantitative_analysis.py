@@ -6,7 +6,7 @@ class QuantativeAnalysis:
     def __init__(self):
         return
      
-    def get_hist_stock_prices(self, *tickers: str) -> pd.DataFrame:
+    def get_hist_stock_prices(self, *tickers:str) -> pd.DataFrame:
         market_data = pd.Series([])
         for ticker in tickers:
             ticker_data = yf.Ticker(ticker).history(period="1mo")
@@ -20,7 +20,7 @@ class QuantativeAnalysis:
                     market_data.rename(columns={"Open": ticker}, inplace=True)   
         return market_data
 
-    def get_hist_stock_volumes(self, *tickers: str) -> pd.DataFrame:
+    def get_hist_stock_volumes(self, *tickers:str) -> pd.DataFrame:
         market_data = pd.Series([])
         for ticker in tickers:
             ticker_data = yf.Ticker(ticker).history(period="1mo")
@@ -34,7 +34,7 @@ class QuantativeAnalysis:
                     market_data.rename(columns={"Volume": ticker}, inplace=True)   
         return market_data
     
-    def get_hist_stock_dividends(self, *tickers: str) -> pd.DataFrame:
+    def get_hist_stock_dividends(self, *tickers:str) -> pd.DataFrame:
         market_data = pd.Series([])
         for ticker in tickers:
             ticker_data = yf.Ticker(ticker).history(period="1mo")
@@ -47,3 +47,8 @@ class QuantativeAnalysis:
                     market_data = pd.concat([market_data, ticker_data.Dividends], axis=1)
                     market_data.rename(columns={"Dividends": ticker}, inplace=True)   
         return market_data
+    
+    def print_market_data(self, market_data:pd.DataFrame) -> None:
+        if(not market_data.empty):
+            plt.plot(market_data)
+            plt.show()
