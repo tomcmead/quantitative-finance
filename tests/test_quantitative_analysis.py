@@ -1,5 +1,6 @@
 import pytest
 import pandas as pd
+import os
 from quantitative_analysis import quantitative_analysis as qa
 
 def test_get_hist_stock_prices():
@@ -34,3 +35,9 @@ def test_get_hist_stock_dividends():
     stock_dividends = quant_analysis.get_hist_stock_dividends("FAKE_STOCK", "UNKOWN_STOCK")
     assert type(stock_dividends)==pd.Series    
     assert stock_dividends.empty
+
+def test_generate_market_report():
+    os.system("rm index.html")
+    quant_analysis = qa.QuantativeAnalysis()
+    quant_analysis.generate_market_report("MSFT", "GOOG")
+    assert os.path.exists("index.html") == True
