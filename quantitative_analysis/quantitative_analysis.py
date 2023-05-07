@@ -60,15 +60,30 @@ class QuantativeAnalysis:
         stock_volumes = self.get_hist_stock_volumes(*tickers)
         stock_dividends = self.get_hist_stock_dividends(*tickers)
 
+        fig, axs = plt.subplots(3, 1, constrained_layout=True)
+        axs[0].set_title('Stock Prices')
+        axs[0].set_ylabel('Stock Price ($)')
+        axs[0].plot(stock_prices)
+
+        axs[1].set_title('Stock Volumes')
+        axs[1].set_ylabel('Stock Volume')
+        axs[1].plot(stock_volumes)
+        
+        axs[2].set_title('Stock Dividends')
+        axs[2].set_ylabel('Stock Dividend ($)')
+        axs[2].plot(stock_dividends)
+        [axs[i].set_xlabel('Year') for i in range(len(axs))]
+        tmpfile = BytesIO()
+        fig.savefig(tmpfile, format='png')
+        encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+ 
         html = '<!DOCTYPE html><html><body>'
-        html += '<img src=\'data:image/png;base64,{}\'>'.format(self.__generate_market_figure(stock_prices))
-        html += '<img src=\'data:image/png;base64,{}\'>'.format(self.__generate_market_figure(stock_volumes))
-        html += '<img src=\'data:image/png;base64,{}\'>'.format(self.__generate_market_figure(stock_dividends))
+        html += '<img src=\'data:image/png;base64,{}\'>'.format(encoded)
         html += '</body></html>'
         with open('index.html', 'w') as f:
             f.write(html)
 
-    def __generate_market_figure(self, market_data:pd.DataFrame) -> str:
+    def __generate_market_figure(self, market_data:pd.DataFrame, data_type:str) -> str:
         fig = plt.figure()
         plt.plot(market_data)
         tmpfile = BytesIO()
