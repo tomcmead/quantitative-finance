@@ -38,6 +38,7 @@ def test_get_hist_stock_dividends():
 
 def test_generate_market_report():
     os.system("rm index.html")
+    assert os.path.exists("index.html") == False
     quant_analysis = qa.QuantativeAnalysis()
     quant_analysis.generate_market_report("MSFT", "GOOG")
     assert os.path.exists("index.html") == True

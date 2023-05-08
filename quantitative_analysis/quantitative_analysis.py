@@ -60,7 +60,7 @@ class QuantativeAnalysis:
         stock_volumes = self.get_hist_stock_volumes(*tickers)
         stock_dividends = self.get_hist_stock_dividends(*tickers)
 
-        fig, axs = plt.subplots(3, 1, constrained_layout=True)
+        fig, axs = plt.subplots(3, 1, constrained_layout=True, figsize=(12, 15))
         axs[0].set_title('Stock Prices')
         axs[0].set_ylabel('Stock Price ($)')
         axs[0].plot(stock_prices)
@@ -72,7 +72,10 @@ class QuantativeAnalysis:
         axs[2].set_title('Stock Dividends')
         axs[2].set_ylabel('Stock Dividend ($)')
         axs[2].plot(stock_dividends)
+
         [axs[i].set_xlabel('Year') for i in range(len(axs))]
+        [axs[i].legend(list(tickers), loc='best') for i in range(len(axs))]
+
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')
         encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
