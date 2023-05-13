@@ -1,8 +1,8 @@
-import quantitative_analysis as qa
-import matplotlib.pyplot as plt
+import generate_market_reports as gm
 
 def main():
-    quant_analysis = qa.QuantativeAnalysis()
+    quant_analysis = gm.GenerateMarketReports()
+    quant_analysis.generate_market_report("MSFT", "GOOG")
     return
 
 if __name__ == "__main__":
