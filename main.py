@@ -1,4 +1,4 @@
-import generate_market_reports as gm
+import quantitative_analysis.generate_market_reports as gm
 
 def main():
     quant_analysis = gm.GenerateMarketReports()

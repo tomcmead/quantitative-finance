@@ -1,4 +1,4 @@
-import quantitative_analysis as qa
+import quantitative_analysis.quantitative_analysis as qa
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
