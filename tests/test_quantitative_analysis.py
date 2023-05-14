@@ -2,6 +2,17 @@ import pytest
 import pandas as pd
 import quantitative_analysis.quantitative_analysis as qa
 
+def test_get_total_assets():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    total_assets = quant_analysis.get_total_assets("MSFT", "GOOG")
+    assert type(total_assets)==pd.DataFrame    
+    assert list(total_assets.columns)==["MSFT", "GOOG"]
+
+    total_assets = quant_analysis.get_total_assets("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(total_assets)==pd.Series    
+    assert total_assets.empty
+
 def test_get_hist_stock_prices():
     quant_analysis = qa.QuantativeAnalysis()
 

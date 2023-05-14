@@ -7,7 +7,7 @@ class QuantativeAnalysis:
         market_data = pd.Series([])
         for ticker in tickers:
             ticker_data = yd.Ticker(ticker).get_financial_data('TotalAssets')
-            if ticker_data.empty:
+            if type(ticker_data)==str:
                 print(f"Error: {ticker} not found and excluded")
             else:
                 if market_data.empty:
