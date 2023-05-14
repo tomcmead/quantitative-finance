@@ -3,7 +3,7 @@ import pandas as pd
 import yahooquery as yd
 
 class QuantativeAnalysis:
-    def get_balance_sheet(self, *tickers:str) -> None:
+    def get_total_assets(self, *tickers:str) -> pd.DataFrame:
         market_data = pd.Series([])
         for ticker in tickers:
             ticker_data = yd.Ticker(ticker).get_financial_data('TotalAssets')
@@ -12,12 +12,12 @@ class QuantativeAnalysis:
             else:
                 if market_data.empty:
                     market_data = pd.DataFrame(index=[str(ticker_data.asOfDate[i])[0:4] for i in range(len(ticker_data))],
-                                               data=[str(ticker_data.TotalAssets[i]) for i in range(len(ticker_data))],
-                                               columns=[ticker]).rename_axis('Year') 
+                                               data=[ticker_data.TotalAssets[i] for i in range(len(ticker_data))],
+                                               columns=[ticker]).rename_axis('Year')               
                 else:
                     market_data_temp = pd.DataFrame(index=[str(ticker_data.asOfDate[i])[0:4] for i in range(len(ticker_data))],
-                                               data=[str(ticker_data.TotalAssets[i]) for i in range(len(ticker_data))],
-                                               columns=[ticker]).rename_axis('Year') 
+                                                    data=[ticker_data.TotalAssets[i] for i in range(len(ticker_data))],
+                                                    columns=[ticker]).rename_axis('Year') 
                     market_data = pd.concat([market_data, market_data_temp], axis=1)            
         return market_data
 
