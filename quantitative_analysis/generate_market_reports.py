@@ -13,8 +13,9 @@ class GenerateMarketReports:
         stock_dividends = self.quant_analysis.get_hist_stock_dividends(None, *tickers)
         total_assets = self.quant_analysis.get_total_assets(None, *tickers)
         total_debt = self.quant_analysis.get_total_debt(None, *tickers)
+        net_income = self.quant_analysis.get_net_income(None, *tickers)
 
-        fig, axs = plt.subplots(5, 1, constrained_layout=True, figsize=(12, 15))
+        fig, axs = plt.subplots(6, 1, constrained_layout=True, figsize=(12, 15))
         axs[0].set_title('Stock Prices')
         axs[0].set_ylabel('Stock Price ($)')
         axs[0].plot(stock_prices)
@@ -34,6 +35,10 @@ class GenerateMarketReports:
         axs[4].set_title('Total Debt')
         axs[4].set_ylabel('Total Debt ($)')
         axs[4].plot(total_debt)
+
+        axs[5].set_title('Net Income')
+        axs[5].set_ylabel('Net Income ($)')
+        axs[5].plot(net_income)
 
         [axs[i].set_xlabel('Year') for i in range(len(axs))]
         [axs[i].legend(list(tickers), loc='best') for i in range(len(axs))]

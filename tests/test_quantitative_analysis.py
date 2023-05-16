@@ -2,17 +2,6 @@ import pytest
 import pandas as pd
 import quantitative_analysis.quantitative_analysis as qa
 
-def test_get_total_assets():
-    quant_analysis = qa.QuantativeAnalysis()
-
-    total_assets = quant_analysis.get_total_assets("MSFT", "GOOG")
-    assert type(total_assets)==pd.DataFrame    
-    assert list(total_assets.columns)==["MSFT", "GOOG"]
-
-    total_assets = quant_analysis.get_total_assets("FAKE_STOCK", "UNKOWN_STOCK")
-    assert type(total_assets)==pd.Series    
-    assert total_assets.empty
-
 def test_get_hist_stock_prices():
     quant_analysis = qa.QuantativeAnalysis()
 
@@ -46,6 +35,17 @@ def test_get_hist_stock_dividends():
     assert type(stock_dividends)==pd.Series    
     assert stock_dividends.empty
 
+def test_get_total_assets():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    total_assets = quant_analysis.get_total_assets("MSFT", "GOOG")
+    assert type(total_assets)==pd.DataFrame    
+    assert list(total_assets.columns)==["MSFT", "GOOG"]
+
+    total_assets = quant_analysis.get_total_assets("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(total_assets)==pd.Series    
+    assert total_assets.empty
+
 def test_get_total_debt():
     quant_analysis = qa.QuantativeAnalysis()
 
@@ -56,3 +56,14 @@ def test_get_total_debt():
     total_debt = quant_analysis.get_total_debt("FAKE_STOCK", "UNKOWN_STOCK")
     assert type(total_debt)==pd.Series    
     assert total_debt.empty
+
+def test_get_net_income():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    net_income = quant_analysis.get_net_income("MSFT", "GOOG")
+    assert type(net_income)==pd.DataFrame    
+    assert list(net_income.columns)==["MSFT", "GOOG"]
+
+    net_income = quant_analysis.get_net_income("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(net_income)==pd.Series    
+    assert net_income.empty
