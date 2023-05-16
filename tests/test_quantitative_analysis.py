@@ -45,3 +45,14 @@ def test_get_hist_stock_dividends():
     stock_dividends = quant_analysis.get_hist_stock_dividends("FAKE_STOCK", "UNKOWN_STOCK")
     assert type(stock_dividends)==pd.Series    
     assert stock_dividends.empty
+
+def test_get_total_debt():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    total_debt = quant_analysis.get_total_debt("MSFT", "GOOG")
+    assert type(total_debt)==pd.DataFrame    
+    assert list(total_debt.columns)==["MSFT", "GOOG"]
+
+    total_debt = quant_analysis.get_total_debt("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(total_debt)==pd.Series    
+    assert total_debt.empty
