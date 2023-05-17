@@ -65,5 +65,16 @@ def test_get_net_income():
     assert list(net_income.columns)==["MSFT", "GOOG"]
 
     net_income = quant_analysis.get_net_income("FAKE_STOCK", "UNKOWN_STOCK")
-    assert type(net_income)==pd.Series    
+    assert type(net_income)==pd.Series
     assert net_income.empty
+
+def test_get_total_revenue():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    total_revenue = quant_analysis.get_total_revenue("MSFT", "GOOG")
+    assert type(total_revenue)==pd.DataFrame    
+    assert list(total_revenue.columns)==["MSFT", "GOOG"]
+
+    total_revenue = quant_analysis.get_total_revenue("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(total_revenue)==pd.Series
+    assert total_revenue.empty
