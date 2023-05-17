@@ -1,11 +1,24 @@
 import quantitative_analysis.quantitative_analysis as qa
 import matplotlib.pyplot as plt
+import pandas as pd
+from scipy.interpolate import make_interp_spline
+import numpy as np
 import base64
 from io import BytesIO
 
 class GenerateMarketReports:
     def __init__(self):
         self.quant_analysis = qa.QuantativeAnalysis
+
+    def __smooth_data(self, market_data:pd.DataFrame, *tickers:str):
+        index=[i for i in market_data.index]
+        index_new = np.linspace(max(index), min(index), 300)
+        smooth_data = []
+        for ticker in tickers:
+            data = [i for i in market_data[ticker].values]
+            spl = make_interp_spline(index, data, k=3)
+            smooth_data.append(spl(index_new))
+        return index_new, smooth_data
     
     def generate_market_report(self, *tickers:str) -> None:
         stock_prices = self.quant_analysis.get_hist_stock_prices(None, *tickers)
@@ -30,18 +43,22 @@ class GenerateMarketReports:
 
         axs[3].set_title('Total Assets')
         axs[3].set_ylabel('Total Assets ($)')
-        axs[3].plot(total_assets)
+        x, y = self.__smooth_data(total_assets, *tickers)
+        [axs[3].plot(x,data) for data in y]
 
         axs[4].set_title('Total Debt')
         axs[4].set_ylabel('Total Debt ($)')
-        axs[4].plot(total_debt)
+        x, y = self.__smooth_data(total_debt, *tickers)
+        [axs[4].plot(x,data) for data in y]
 
         axs[5].set_title('Net Income')
         axs[5].set_ylabel('Net Income ($)')
-        axs[5].plot(net_income)
+        x, y = self.__smooth_data(net_income, *tickers)
+        [axs[5].plot(x,data) for data in y]
 
         [axs[i].set_xlabel('Year') for i in range(len(axs))]
         [axs[i].legend(list(tickers), loc='best') for i in range(len(axs))]
+        [axs[i].set_xticks(np.arange(min(x), max(x)+1, 1)) for i in range(3,len(axs))]        
 
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')

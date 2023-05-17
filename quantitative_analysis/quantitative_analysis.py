@@ -53,11 +53,11 @@ class QuantativeAnalysis:
                 print(f"Error: {ticker} not found and excluded")
             else:
                 if market_data.empty:
-                    market_data = pd.DataFrame(index=[str(ticker_data.asOfDate[i])[0:4] for i in range(len(ticker_data))],
+                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
                                                data=[ticker_data.TotalAssets[i] for i in range(len(ticker_data))],
                                                columns=[ticker]).rename_axis('Year')               
                 else:
-                    market_data_temp = pd.DataFrame(index=[str(ticker_data.asOfDate[i])[0:4] for i in range(len(ticker_data))],
+                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
                                                     data=[ticker_data.TotalAssets[i] for i in range(len(ticker_data))],
                                                     columns=[ticker]).rename_axis('Year') 
                     market_data = pd.concat([market_data, market_data_temp], axis=1)            
@@ -71,11 +71,11 @@ class QuantativeAnalysis:
                 print(f"Error: {ticker} not found and excluded")
             else:
                 if market_data.empty:
-                    market_data = pd.DataFrame(index=[str(ticker_data.asOfDate[i])[0:4] for i in range(len(ticker_data))],
+                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
                                                data=[ticker_data.TotalDebt[i] for i in range(len(ticker_data))],
                                                columns=[ticker]).rename_axis('Year')               
                 else:
-                    market_data_temp = pd.DataFrame(index=[str(ticker_data.asOfDate[i])[0:4] for i in range(len(ticker_data))],
+                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
                                                     data=[ticker_data.TotalDebt[i] for i in range(len(ticker_data))],
                                                     columns=[ticker]).rename_axis('Year') 
                     market_data = pd.concat([market_data, market_data_temp], axis=1)            
@@ -85,17 +85,16 @@ class QuantativeAnalysis:
         market_data = pd.Series([])
         for ticker in tickers:
             ticker_data = yd.Ticker(ticker).get_financial_data('NetIncome')
-            print(ticker_data)
             if type(ticker_data)==str:
                 print(f"Error: {ticker} not found and excluded")
             else:
                 if market_data.empty:
-                    market_data = pd.DataFrame(index=[str(ticker_data.asOfDate[i])[0:4] for i in range(len(ticker_data))],
-                                               data=[ticker_data.NetIncome[i] for i in range(len(ticker_data))],
+                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(4)],
+                                               data=[ticker_data.NetIncome[i] for i in range(4)],
                                                columns=[ticker]).rename_axis('Year')               
                 else:
-                    market_data_temp = pd.DataFrame(index=[str(ticker_data.asOfDate[i])[0:4] for i in range(len(ticker_data))],
-                                                    data=[ticker_data.NetIncome[i] for i in range(len(ticker_data))],
+                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(4)],
+                                                    data=[ticker_data.NetIncome[i] for i in range(4)],
                                                     columns=[ticker]).rename_axis('Year') 
-                    market_data = pd.concat([market_data, market_data_temp], axis=1)            
+                    market_data = pd.concat([market_data, market_data_temp], axis=1)     
         return market_data
