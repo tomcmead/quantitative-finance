@@ -28,8 +28,9 @@ class GenerateMarketReports:
         total_debt = self.quant_analysis.get_total_debt(None, *tickers)
         net_income = self.quant_analysis.get_net_income(None, *tickers)
         total_revenue = self.quant_analysis.get_total_revenue(None, *tickers)
+        earnings_per_share = self.quant_analysis.get_earnings_per_share(None, *tickers)
 
-        fig, axs = plt.subplots(7, 1, constrained_layout=True, figsize=(12, 26))
+        fig, axs = plt.subplots(8, 1, constrained_layout=True, figsize=(12, 26))
         axs[0].set_title('Stock Prices')
         axs[0].set_ylabel('Stock Price ($)')
         axs[0].plot(stock_prices)
@@ -61,6 +62,11 @@ class GenerateMarketReports:
         axs[6].set_ylabel('Total Revenue ($)')
         x, y = self.__smooth_data(total_revenue, *tickers)
         [axs[6].plot(x,data) for data in y]
+
+        axs[7].set_title('Earnings per Share')
+        axs[7].set_ylabel('Earnings per Share')
+        x, y = self.__smooth_data(earnings_per_share, *tickers)
+        [axs[7].plot(x,data) for data in y]
 
         [axs[i].set_xlabel('Year') for i in range(len(axs))]
         [axs[i].legend(list(tickers), loc='best') for i in range(len(axs))]

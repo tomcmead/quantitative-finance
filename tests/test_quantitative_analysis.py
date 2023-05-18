@@ -78,3 +78,14 @@ def test_get_total_revenue():
     total_revenue = quant_analysis.get_total_revenue("FAKE_STOCK", "UNKOWN_STOCK")
     assert type(total_revenue)==pd.Series
     assert total_revenue.empty
+
+def test_get_earnings_per_share():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    earnings_per_share = quant_analysis.get_earnings_per_share("MSFT", "GOOG")
+    assert type(earnings_per_share)==pd.DataFrame    
+    assert list(earnings_per_share.columns)==["MSFT", "GOOG"]
+
+    earnings_per_share = quant_analysis.get_earnings_per_share("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(earnings_per_share)==pd.Series
+    assert earnings_per_share.empty
