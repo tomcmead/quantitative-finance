@@ -30,8 +30,9 @@ class GenerateMarketReports:
         total_revenue = self.quant_analysis.get_total_revenue(None, *tickers)
         earnings_per_share = self.quant_analysis.get_earnings_per_share(None, *tickers)
         total_liability = self.quant_analysis.get_total_liability(None, *tickers)
+        free_cash_flow = self.quant_analysis.get_free_cash_flow(None, *tickers)
 
-        fig, axs = plt.subplots(9, 1, constrained_layout=True, figsize=(12, 26))
+        fig, axs = plt.subplots(10, 1, constrained_layout=True, figsize=(12, 26))
         axs[0].set_title('Stock Prices')
         axs[0].set_ylabel('Stock Price ($)')
         axs[0].plot(stock_prices)
@@ -69,10 +70,15 @@ class GenerateMarketReports:
         x, y = self.__smooth_data(earnings_per_share, *tickers)
         [axs[7].plot(x,data) for data in y]
 
-        axs[8].set_title('Total Liability ($)')
-        axs[8].set_ylabel('Total Liability')
+        axs[8].set_title('Total Liability')
+        axs[8].set_ylabel('Total Liability ($)')
         x, y = self.__smooth_data(total_liability, *tickers)
         [axs[8].plot(x,data) for data in y]
+
+        axs[9].set_title('Free Cash Flow')
+        axs[9].set_ylabel('Free Cash Flow ($)')
+        x, y = self.__smooth_data(free_cash_flow, *tickers)
+        [axs[9].plot(x,data) for data in y]
 
         [axs[i].set_xlabel('Year') for i in range(len(axs))]
         [axs[i].legend(list(tickers), loc='best') for i in range(len(axs))]

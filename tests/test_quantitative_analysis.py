@@ -100,3 +100,14 @@ def test_get_total_liability():
     total_liability = quant_analysis.get_total_liability("FAKE_STOCK", "UNKOWN_STOCK")
     assert type(total_liability)==pd.Series
     assert total_liability.empty
+
+def test_get_free_cash_flow():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    free_cash_flow = quant_analysis.get_free_cash_flow("MSFT", "GOOG")
+    assert type(free_cash_flow)==pd.DataFrame    
+    assert list(free_cash_flow.columns)==["MSFT", "GOOG"]
+
+    free_cash_flow = quant_analysis.get_free_cash_flow("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(free_cash_flow)==pd.Series
+    assert free_cash_flow.empty
