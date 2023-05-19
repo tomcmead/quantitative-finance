@@ -45,40 +45,22 @@ class QuantativeAnalysis:
                     market_data.rename(columns={"Dividends": ticker}, inplace=True)   
         return market_data
 
-    def get_total_assets(self, *tickers:str) -> pd.DataFrame:
+    def get_total_revenue(self, *tickers:str) -> pd.DataFrame:
         market_data = pd.Series([])
         for ticker in tickers:
-            ticker_data = yd.Ticker(ticker).get_financial_data('TotalAssets')
+            ticker_data = yd.Ticker(ticker).get_financial_data('TotalRevenue')
             if type(ticker_data)==str:
                 print(f"Error: {ticker} not found and excluded")
             else:
                 if market_data.empty:
-                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
-                                               data=[ticker_data.TotalAssets[i] for i in range(len(ticker_data))],
+                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(4)],
+                                               data=[ticker_data.TotalRevenue[i] for i in range(4)],
                                                columns=[ticker]).rename_axis('Year')               
                 else:
-                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
-                                                    data=[ticker_data.TotalAssets[i] for i in range(len(ticker_data))],
+                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(4)],
+                                                    data=[ticker_data.TotalRevenue[i] for i in range(4)],
                                                     columns=[ticker]).rename_axis('Year') 
-                    market_data = pd.concat([market_data, market_data_temp], axis=1)            
-        return market_data
-    
-    def get_total_debt(self, *tickers:str) -> pd.DataFrame:
-        market_data = pd.Series([])
-        for ticker in tickers:
-            ticker_data = yd.Ticker(ticker).get_financial_data('TotalDebt')
-            if type(ticker_data)==str:
-                print(f"Error: {ticker} not found and excluded")
-            else:
-                if market_data.empty:
-                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
-                                               data=[ticker_data.TotalDebt[i] for i in range(len(ticker_data))],
-                                               columns=[ticker]).rename_axis('Year')               
-                else:
-                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
-                                                    data=[ticker_data.TotalDebt[i] for i in range(len(ticker_data))],
-                                                    columns=[ticker]).rename_axis('Year') 
-                    market_data = pd.concat([market_data, market_data_temp], axis=1)            
+                    market_data = pd.concat([market_data, market_data_temp], axis=1)     
         return market_data
     
     def get_net_income(self, *tickers:str) -> pd.DataFrame:
@@ -99,24 +81,6 @@ class QuantativeAnalysis:
                     market_data = pd.concat([market_data, market_data_temp], axis=1)     
         return market_data
     
-    def get_total_revenue(self, *tickers:str) -> pd.DataFrame:
-        market_data = pd.Series([])
-        for ticker in tickers:
-            ticker_data = yd.Ticker(ticker).get_financial_data('TotalRevenue')
-            if type(ticker_data)==str:
-                print(f"Error: {ticker} not found and excluded")
-            else:
-                if market_data.empty:
-                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(4)],
-                                               data=[ticker_data.TotalRevenue[i] for i in range(4)],
-                                               columns=[ticker]).rename_axis('Year')               
-                else:
-                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(4)],
-                                                    data=[ticker_data.TotalRevenue[i] for i in range(4)],
-                                                    columns=[ticker]).rename_axis('Year') 
-                    market_data = pd.concat([market_data, market_data_temp], axis=1)     
-        return market_data
-
     def get_earnings_per_share(self, *tickers:str) -> pd.DataFrame:
         market_data = pd.Series([])
         for ticker in tickers:
@@ -135,6 +99,24 @@ class QuantativeAnalysis:
                     market_data = pd.concat([market_data, market_data_temp], axis=1)     
         return market_data
     
+    def get_total_assets(self, *tickers:str) -> pd.DataFrame:
+        market_data = pd.Series([])
+        for ticker in tickers:
+            ticker_data = yd.Ticker(ticker).get_financial_data('TotalAssets')
+            if type(ticker_data)==str:
+                print(f"Error: {ticker} not found and excluded")
+            else:
+                if market_data.empty:
+                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
+                                               data=[ticker_data.TotalAssets[i] for i in range(len(ticker_data))],
+                                               columns=[ticker]).rename_axis('Year')               
+                else:
+                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
+                                                    data=[ticker_data.TotalAssets[i] for i in range(len(ticker_data))],
+                                                    columns=[ticker]).rename_axis('Year') 
+                    market_data = pd.concat([market_data, market_data_temp], axis=1)            
+        return market_data
+    
     def get_total_liability(self, *tickers:str) -> pd.DataFrame:
         market_data = pd.Series([])
         for ticker in tickers:
@@ -151,6 +133,24 @@ class QuantativeAnalysis:
                                                     data=[ticker_data.TotalLiabilitiesNetMinorityInterest[i] for i in range(4)],
                                                     columns=[ticker]).rename_axis('Year') 
                     market_data = pd.concat([market_data, market_data_temp], axis=1)     
+        return market_data
+    
+    def get_total_debt(self, *tickers:str) -> pd.DataFrame:
+        market_data = pd.Series([])
+        for ticker in tickers:
+            ticker_data = yd.Ticker(ticker).get_financial_data('TotalDebt')
+            if type(ticker_data)==str:
+                print(f"Error: {ticker} not found and excluded")
+            else:
+                if market_data.empty:
+                    market_data = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
+                                               data=[ticker_data.TotalDebt[i] for i in range(len(ticker_data))],
+                                               columns=[ticker]).rename_axis('Year')               
+                else:
+                    market_data_temp = pd.DataFrame(index=[int(str(ticker_data.asOfDate[i])[0:4]) for i in range(len(ticker_data))],
+                                                    data=[ticker_data.TotalDebt[i] for i in range(len(ticker_data))],
+                                                    columns=[ticker]).rename_axis('Year') 
+                    market_data = pd.concat([market_data, market_data_temp], axis=1)            
         return market_data
     
     def get_free_cash_flow(self, *tickers:str) -> pd.DataFrame:
