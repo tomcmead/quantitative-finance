@@ -111,3 +111,14 @@ def test_get_free_cash_flow():
     free_cash_flow = quant_analysis.get_free_cash_flow("FAKE_STOCK", "UNKOWN_STOCK")
     assert type(free_cash_flow)==pd.Series
     assert free_cash_flow.empty
+
+def test_get_free_cash_flow():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    change_in_cash = quant_analysis.get_change_in_cash("MSFT", "GOOG")
+    assert type(change_in_cash)==pd.DataFrame    
+    assert list(change_in_cash.columns)==["MSFT", "GOOG"]
+
+    change_in_cash = quant_analysis.get_change_in_cash("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(change_in_cash)==pd.Series
+    assert change_in_cash.empty

@@ -31,8 +31,9 @@ class GenerateMarketReports:
         earnings_per_share = self.quant_analysis.get_earnings_per_share(None, *tickers)
         total_liability = self.quant_analysis.get_total_liability(None, *tickers)
         free_cash_flow = self.quant_analysis.get_free_cash_flow(None, *tickers)
+        change_in_cash = self.quant_analysis.get_change_in_cash(None, *tickers)
 
-        fig, axs = plt.subplots(10, 1, constrained_layout=True, figsize=(12, 26))
+        fig, axs = plt.subplots(11, 1, constrained_layout=True, figsize=(12, 26))
         axs[0].set_title('Stock Prices')
         axs[0].set_ylabel('Stock Price ($)')
         axs[0].plot(stock_prices)
@@ -79,6 +80,11 @@ class GenerateMarketReports:
         axs[9].set_ylabel('Free Cash Flow ($)')
         x, y = self.__smooth_data(free_cash_flow, *tickers)
         [axs[9].plot(x,data) for data in y]
+
+        axs[10].set_title('Change in Cash')
+        axs[10].set_ylabel('Change in Cash ($)')
+        x, y = self.__smooth_data(change_in_cash, *tickers)
+        [axs[10].plot(x,data) for data in y]
 
         [axs[i].set_xlabel('Year') for i in range(len(axs))]
         [axs[i].legend(list(tickers), loc='best') for i in range(len(axs))]
