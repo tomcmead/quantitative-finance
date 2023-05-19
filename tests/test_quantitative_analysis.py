@@ -89,3 +89,14 @@ def test_get_earnings_per_share():
     earnings_per_share = quant_analysis.get_earnings_per_share("FAKE_STOCK", "UNKOWN_STOCK")
     assert type(earnings_per_share)==pd.Series
     assert earnings_per_share.empty
+
+def test_get_total_liability():
+    quant_analysis = qa.QuantativeAnalysis()
+
+    total_liability = quant_analysis.get_total_liability("MSFT", "GOOG")
+    assert type(total_liability)==pd.DataFrame    
+    assert list(total_liability.columns)==["MSFT", "GOOG"]
+
+    total_liability = quant_analysis.get_total_liability("FAKE_STOCK", "UNKOWN_STOCK")
+    assert type(total_liability)==pd.Series
+    assert total_liability.empty
