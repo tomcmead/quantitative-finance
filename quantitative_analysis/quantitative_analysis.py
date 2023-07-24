@@ -158,7 +158,20 @@ class QuantativeAnalysis:
                 data = [ticker_data[idx].TotalDebt[row] for row in range(len(data))]
                 total_debt.append(data)
         return yahoo_query_handler(ticker_data, total_debt)
-    
+
+    def get_book_value(self, *tickers:str) -> pd.DataFrame:
+        ticker_data = []
+        book_value = []
+        for idx, ticker in enumerate(tickers):
+            data = yd.Ticker(ticker).get_financial_data('TangibleBookValue', trailing=False)
+            if(type(data) == str):
+                print(f"Error: book value for ticker {ticker} not found and excluded")
+            else:
+                ticker_data.append(data)
+                data = [ticker_data[idx].TangibleBookValue[row] for row in range(len(data))]
+                book_value.append(data)
+        return yahoo_query_handler(ticker_data, book_value)
+
     def get_free_cash_flow(self, *tickers:str) -> pd.DataFrame:
         ticker_data = []
         free_cash_flow = []

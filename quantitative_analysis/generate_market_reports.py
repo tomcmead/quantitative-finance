@@ -79,8 +79,9 @@ class GenerateMarketReports:
         total_assets = self.quant_analysis.get_total_assets(None, *tickers)
         total_liability = self.quant_analysis.get_total_liability(None, *tickers)
         total_debt = self.quant_analysis.get_total_debt(None, *tickers)
+        book_value = self.quant_analysis.get_book_value(None, *tickers)
 
-        fig, axs = plt.subplots(3, 1, constrained_layout=True, figsize=(12, 20))
+        fig, axs = plt.subplots(4, 1, constrained_layout=True, figsize=(12, 20))
 
         axs[0].set_title('Total Assets')
         axs[0].set_ylabel('Total Assets ($)')
@@ -96,6 +97,11 @@ class GenerateMarketReports:
         axs[2].set_ylabel('Total Liability ($)')
         x, y = self.__smooth_data(total_liability, *tickers)
         [axs[2].plot(x,y_) for y_ in y]
+
+        axs[3].set_title('Book Value')
+        axs[3].set_ylabel('Book Value ($)')
+        x, y = self.__smooth_data(book_value, *tickers)
+        [axs[3].plot(x,y_) for y_ in y]
 
         [axs[i].set_xticks(np.arange(min(x), max(x)+1, 1)) for i in range(len(axs))]
         balance_sheet_png = self.__generate_chart_image(fig, axs, *tickers)
